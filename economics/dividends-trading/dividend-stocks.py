@@ -38,7 +38,7 @@ for symbol in symbols:
             "Dividend Date": dividend_dates,
             "Market Capitalization": [market_cap] * dividend_count,
             "Count of total dividends paid for that year": [dividend_count] * dividend_count,
-            "How much was paid": [f"{dividend_payment:.2f} Dividend"] * dividend_count
+            "How much was paid": [f"{dividend_payment:.2f}"] * dividend_count
         }
         df = pd.DataFrame(data)
 
@@ -65,4 +65,4 @@ result_df = result_df.reset_index(drop=True)
 result_df["Placing"] = result_df.index + 1
 
 # Save the dataframe to an XLSX file
-result_df.to_excel("market_cap_data.xlsx", index=False)
+result_df.to_csv("market_cap_data.csv", index=False)
