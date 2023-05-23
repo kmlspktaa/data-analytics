@@ -11,34 +11,29 @@ dfs = []
 # Iterate over the symbols
 for symbol in symbols:
     try:
-        # Get the dividends data for 2022
+        # Get the dividends data for the specified year
         stock = yf.Ticker(symbol)
         dividends = stock.dividends
-
-        if isinstance(dividends, list):
-            print(f"Skipping symbol {symbol} due to data unavailability.")
-            continue
-
         dividends_2022 = dividends.loc[str(year)]
 
-        dividend_dates = dividends_2022.index.strftime('%m/%d/%Y').tolist()
-        dividend_count = len(dividend_dates)
-        dividend_payment = dividends_2022.sum()
+        if dividends_2022.empty:
+            print(f"No dividend data available for {symbol} in {year}.")
+            continue
 
         # Get the market capitalization data
         try:
-            market_cap = "{:,.0f}".format(stock.info["marketCap"])
+            market_cap = float(stock.info["marketCap"])
         except KeyError:
             market_cap = None
 
         # Create a dataframe for the current stock
         data = {
-            "Symbol": [symbol] * dividend_count,
-            "Year": [year] * dividend_count,
-            "Dividend Date": dividend_dates,
-            "Market Capitalization": [market_cap] * dividend_count,
-            "Count of total dividends paid for that year": [dividend_count] * dividend_count,
-            "How much was paid": [f"{dividend_payment:.2f}"] * dividend_count
+            "Symbol": symbol,
+            "Year": year,
+            "Dividend Date": dividends_2022.index.strftime('%m/%d/%Y'),
+            "Market Capitalization": market_cap,
+            "Count of total dividends paid for that year": len(dividends_2022),
+            "How much was paid": dividends_2022.tolist()
         }
         df = pd.DataFrame(data)
 
@@ -52,17 +47,9 @@ for symbol in symbols:
 # Concatenate the dataframes for all stocks
 result_df = pd.concat(dfs)
 
-# Convert market capitalization to numeric
-result_df["Market Capitalization"] = pd.to_numeric(result_df["Market Capitalization"].str.replace(",", ""), errors="coerce")
+# Convert columns to float type
+result_df["Market Capitalization"] = result_df["Market Capitalization"].astype(float)
+result_df["Count of total dividends paid for that year"] = result_df["Count of total dividends paid for that year"].astype(float)
 
-# Sort the DataFrame by market capitalization in descending order
-result_df = result_df.sort_values(by="Market Capitalization", ascending=False)
-
-# Reset the index
-result_df = result_df.reset_index(drop=True)
-
-# Add a column for placing/ranking based on market capitalization
-result_df["Placing"] = result_df.index + 1
-
-# Save the dataframe to an XLSX file
-result_df.to_csv("market_cap_data.csv", index=False)
+# Save the dataframe to a CSV file
+result_df.to_csv("dividend_data_2022.csv", index=False)
