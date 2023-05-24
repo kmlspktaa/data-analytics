@@ -1,8 +1,11 @@
-import yfinance as yf
 import pandas as pd
+import yfinance as yf
 
-# Define the symbols and year
-symbols = ["AAPL", "O", "JNJ", "CNQ", "PEP", "T", "PG", "LTC", "MCD", "JPM", "CAT", "IBM", "CAH", "GD", "RY", "BMO", "BATS", "BNS", "CB", "LOW", "SYY", "ITW", "WMT", "KMB", "RKT", "MAIN", "ADP", "SBUX", "ECL", "CVX", "SEMB", "PSEC", "AGNC", "STAG", "AFLPPG", "MDT", "NUE", "EMR", "TROW", "BEN", "STHS", "SHW", "SSHY", "VUSC", "GWW", "ROP", "ADC"]
+# Read the symbols from a CSV file
+symbols_df = pd.read_csv("symbols.csv")
+symbols = symbols_df["Symbol"].tolist()
+
+# Specify the year
 year = 2022
 
 # Create an empty list to store the dataframes for each stock
