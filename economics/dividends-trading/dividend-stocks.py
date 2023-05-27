@@ -55,4 +55,6 @@ result_df["Market Capitalization"] = result_df["Market Capitalization"].astype(f
 result_df["Count of total dividends paid for that year"] = result_df["Count of total dividends paid for that year"].astype(float)
 
 # Save the dataframe to a CSV file
-result_df.to_csv("dividend_data_2022.csv", index=False)
+result_df.to_csv("temp_dividend_data_2022.csv", index=False)
+
+
