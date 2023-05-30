@@ -5,7 +5,7 @@ from pyspark.sql.functions import col, round
 spark = SparkSession.builder.getOrCreate()
 
 # Read the CSV file into a DataFrame
-df = spark.read.csv("dividend_data_2022.csv", header=True)
+df = spark.read.csv("temp_dividend_data_2022_2023.csv", header=True)
 
 # Convert "How much was paid" column to a numeric data type
 df = df.withColumn("How much was paid", col("How much was paid").cast("double"))
