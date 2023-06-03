@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/economics/dividends-trading/staging/temp_dividend_data_2022_2023.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
